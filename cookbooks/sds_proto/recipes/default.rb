@@ -21,7 +21,6 @@ user(sds_user) do
 end
 
 package "maven2"
-package "openjdk-6-jdk"
 
 git "#{sds_rabbitmq_proto_path}" do
   user sds_user

@@ -60,6 +60,13 @@ The second config file, `.chef/knife.rb` is a repository specific configuration 
 
 http://help.opscode.com/faqs/chefbasics/knife
 
+EC2 Install
+===========
+
+Example:
+
+    knife ec2 server create -r 'role[sc]' -I ami-0f01367b -f t1.micro
+
 Next Steps
 ==========
 

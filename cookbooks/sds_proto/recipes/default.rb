@@ -21,6 +21,7 @@ user(sds_user) do
 end
 
 package "maven2"
+package "ant"
 
 git "#{sds_rabbitmq_proto_path}" do
   user sds_user
@@ -43,4 +44,11 @@ git "#{sds_activemq_proto_path}" do
   repository "git://github.com/carguel/activemq-proto.git"
   reference "master"
   action :sync
+end
+
+execute "ant" do
+  command "ant compile"
+  action :run
+  user sds_user
+  cwd sds_activemq_proto_path
 end

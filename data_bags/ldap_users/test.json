@@ -1,0 +1,10 @@
+{
+  "id": "test2",
+  "uid": "test2",
+  "uidNumber": "10001",
+  "gidNumber": "10001",
+  "cn": "test2",
+  "sn": "test2  user user",
+  "userPassword": "{SSHA}CCygVeFswp2A5ouOYR62mArEyKwT7D8y",
+  "homeDirectory": "/home/test2"
+}

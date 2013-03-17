@@ -1,0 +1,15 @@
+objectIdentifier myOID  1.3.6.1.4.1.9999
+objectIdentifier mySNMP myOID:1
+objectIdentifier myLDAP myOID:2
+objectIdentifier myAttributeType        myLDAP:1
+objectIdentifier myObjectClass  myLDAP:2
+attributeType ( myAttributeType:1 NAME 'x-functionId'
+        DESC 'function that the role is allowed to access to'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} )
+
+objectclass ( myObjectClass:1 NAME 'x-role'
+        DESC 'mixin x-functionId'
+        AUXILIARY
+        MUST x-functionId )

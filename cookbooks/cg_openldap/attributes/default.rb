@@ -14,6 +14,9 @@ default.cg_openldap.rootdn = "cn=Manager,#{node.cg_openldap.basedn}"
 # It should be overriden by a role attribute
 default.cg_openldap.rootpassword = "pa$$word"
 
+# Default log level of the accesses to the bdb database
+default.cg_openldap.ldap_log_level = "-1"
+
 # Default cookbook which defines the schemas to import
 # The cookbook shall store these schemas under files/default/schemas/
 # Each schema file shall have a .schema extension

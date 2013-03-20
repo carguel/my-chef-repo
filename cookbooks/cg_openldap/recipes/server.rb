@@ -26,6 +26,8 @@ ruby_block "set_basedn" do
     f.search_file_replace_line(/olcRootDN:/, "olcRootDN: #{node.cg_openldap.rootdn}")
     f.search_file_delete_line(/olcRootPW:/)
     f.insert_line_after_match(/olcRootDN:/, "olcRootPW: #{password}")
+    f.search_file_delete_line(/olcLogLevel:/)
+    f.insert_line_after_match(/olcRootPW:/, "olcLogLevel: #{node.cg_openldap.ldap_log_level}")
     f.write_file
   end
   action :create

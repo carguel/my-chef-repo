@@ -53,8 +53,8 @@ define :ldap_schemas do
     command "ldapadd -Y EXTERNAL -H ldapi:/// -D cn=admin,cn=config < #{ldif}"
     action :run
     not_if do
-      ldap = Chef::Recipe::LDAPUtils.new(node.cg_openldap.ldap_server, node.cg_openldap.ldap_port, node.cg_openldap.rootdn, node.cg_openldap.rootpassword)
-      ldap.config_contains?(base: "cn=schema,cn=config", filter: "cn=*#{schema}")
+      lcu = Chef::Recipe::LDAPConfigUtils.new
+      lcu.contains?(base: "cn=schema,cn=config", filter: "cn=*#{schema}")
     end
   end
 end

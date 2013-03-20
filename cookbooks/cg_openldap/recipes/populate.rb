@@ -1,46 +1,27 @@
-require 'active_ldap'
+chef_gem 'net-ldap'
+chef_gem 'activeldap'
 
-ruby_block 'setup_ldap_connection' do
-  block do
-    basedn = node.cg_openldap.basedn
-    ActiveLdap::Base.setup_connection :host => 'localhost', 
-                                      :port => 389, 
-                                      :base => basedn, 
-                                      :bind_dn => "cn=Manager,#{basedn}", 
-                                      :password => 'pa$$word'
-  end
+class Chef::Recipe
+    include CGOpenldap
 end
 
-ruby_block 'define_ldap_models' do
-  block do
-    user_classes = node.cg_openldap.user_classes
-    ::User = Class.new(ActiveLdap::Base) do
-      ldap_mapping classes: user_classes, prefix: "ou=users"
-      belongs_to :groups, class_name: '::Groups', :many => 'memberUid'  
-    end
+lu = LDAPUtils.new(node.cg_openldap.ldap_server, 
+                   node.cg_openldap.ldap_port, 
+                   node.cg_openldap.rootdn, 
+                   node.cg_openldap.rootpassword)
 
-    ::Group = Class.new(ActiveLdap::Base) do
-      ldap_mapping :classes => ['top', 'posixGroup'], :prefix => 'ou=Groups'
-      has_many :members, :class_name => '::User', :wrap => 'memberUid'
-      has_many :primary_members, :class_name => '::User', :foreign_key => 'gidNumber', :primary_key => 'gidNumber'
-    end
-  end
-  action :create
-end
-
-
-
-data_bag('ldap_users').each do |user_id|
-  user = data_bag_item('ldap_users', user_id)
-  Chef::Log.info "add/modify user #{user["uid"]}"
-  ruby_block 'add_user' do
+parse_populate_data_bag_item do |dn, attrs|
+  ruby_block "add_entry_#{dn}" do
     block do
-      #u = User.find(user["cn"]) || ::User.new(user[:cn])
-      u = ::User.new(user[:cn])
-      user.each do |key, value|
-        u.send("#{key}=", value)
+
+      # hash the password if needed
+      password = attrs['userPassword']
+      if (password && ! password.match(/\{(?:S?SHA|MD5)\}/))
+        attrs["userPassword"] = LDAPUtils.ssha_password password
       end
-      u.save
+
+      Chef::Log.info "add entry dn=#{dn}, attrs=#{attrs}"
+      lu.add_entry(dn, attrs)
     end
   end
 end

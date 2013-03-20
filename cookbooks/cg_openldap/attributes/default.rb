@@ -17,6 +17,8 @@ default.cg_openldap.rootpassword = "pa$$word"
 # Default log level of the accesses to the bdb database
 default.cg_openldap.ldap_log_level = "-1"
 
+default.cg_openldap.acls = ["to attrs=userPassword by self =xw by anonymous auth by * none", "to * by self write by users read by * none"]
+
 # Default cookbook which defines the schemas to import
 # The cookbook shall store these schemas under files/default/schemas/
 # Each schema file shall have a .schema extension

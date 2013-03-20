@@ -1,4 +1,8 @@
-CGOpenldap.check_supported_platform node
+class Chef::Recipe
+  include CGOpenldap
+end
+
+check_supported_platform 
 
 package "openldap-clients" do
   action :upgrade

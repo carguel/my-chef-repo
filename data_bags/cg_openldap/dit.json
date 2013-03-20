@@ -29,6 +29,11 @@
                             }
                         }
                     }
+                },
+                "ou=roles": {
+                    "attrs": {
+                      "objectClass": ["top", "organizationalUnit"]
+                    }
                 }
             }
         }

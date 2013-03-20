@@ -1,6 +1,14 @@
 require 'active_ldap'
+require 'net/ldap'
+
+module Chef::Recipe::LDAPHelpers
+  def check_base(opts)
+    base = opts[:base] or raise ":base option shall be provided"
+  end
+end
 
 class Chef::Recipe::LDAPUtils
+  include Chef::Recipe::LDAPHelpers
 
   def initialize(server, port, dn, password)
     @ldap = Net::LDAP.new(host: server, port: port, auth: {method: :simple, username: dn, password: password} )
@@ -40,16 +48,6 @@ class Chef::Recipe::LDAPUtils
     @ldap.search(base: base, filter: filter, return_result: false)
   end
 
-  def config_contains?(opts = {})
-    base = check_base opts
-    filter = if opts.has_key? :filter
-               opts[:filter]
-             else
-               ""
-             end
-    system("ldapsearch -Y EXTERNAL -H ldapi:// -b #{base} #{filter} | grep -q 'numEntries:'")
-  end
-
   # Extract the first item of the given dn
   # @param [String] dn the dn to consider
   # @return [Hash] the key/value pair related to the first item of the dn
@@ -58,16 +56,28 @@ class Chef::Recipe::LDAPUtils
     {m[1] => m[2]}
   end
 
+  def self.build_dn(*items)
+    items.join ','
+  end
+
   # Hash the given password according to SSHA schema, the salt is randomly generated.
   # @param [String] password the password to hash
   # @return [String] the hashed password
   def self.ssha_password(clear_password)
     ActiveLdap::UserPassword.ssha clear_password
   end
+end
 
-  private
+class Chef::Recipe::LDAPConfigUtils
+  include Chef::Recipe::LDAPHelpers
 
-  def check_base(opts)
-    base = opts[:base] or raise ":base option shall be provided"
+  def contains?(opts = {})
+    base = check_base opts
+    filter = if opts.has_key? :filter
+               opts[:filter]
+             else
+               ""
+             end
+    system("ldapsearch -Y EXTERNAL -H ldapi:// -b #{base} #{filter} | grep -q 'numEntries:'")
   end
 end

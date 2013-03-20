@@ -1,0 +1,36 @@
+{
+    "id": "dit",
+    "dit": {
+        "dc=capgemini,dc=com": {
+            "attrs": {
+                "objectClass": ["organization", "dcObject"], 
+                "description": "root of the directory", 
+                "o": "organization"
+            },
+            "children": {
+                "ou=groups": {
+                    "attrs": {
+                        "objectClass": ["top", "organizationalUnit"]
+                    }
+                },
+                "ou=users": {
+                    "attrs": {
+                        "objectClass": ["top", "organizationalUnit"]
+                    },
+                    "children": {
+                        "ou=unixAccounts": {
+                            "attrs": {
+                                "objectClass": ["top", "organizationalUnit"]
+                            }
+                        },
+                        "ou=applicationAccounts": {
+                            "attrs": {
+                                "objectClass": ["top", "organizationalUnit"]
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

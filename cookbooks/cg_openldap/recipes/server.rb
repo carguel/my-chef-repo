@@ -1,6 +1,4 @@
 # setup openldap server
-
-
 CGOpenldap.check_supported_platform node
 
 include_recipe "cg_openldap::client"
@@ -32,19 +30,4 @@ ruby_block "set_basedn" do
   end
   action :create
   notifies :start, "service[slapd]", :immediately
-end
-
-# Create the DIT
-template "/tmp/dit.ldif" do
-  mode 00644
-  source "dit.ldif.erb"
-end
-
-execute "init DIT" do
-  command "ldapadd -Y EXTERNAL -H ldapi:/// -D #{node.cg_openldap.rootdn} < /tmp/dit.ldif"
-  not_if {LDAPUtils.contains? base: node.cg_openldap.basedn}
-end
-
-file "/tmp/dit.ldif" do
-  action :delete
 end

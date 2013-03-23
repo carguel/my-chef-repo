@@ -1,8 +1,6 @@
 class Chef::Recipe
-  include CGOpenldap
+  include CAOpenldap
 end
-
-check_supported_platform 
 
 package "openldap-clients" do
   action :upgrade

@@ -1,10 +1,10 @@
-# CHANGELOG for cg-openldap
+# CHANGELOG for ca_openldap
 
-This file is used to list changes made in each version of cg-openldap.
+This file is used to list changes made in each version of ca_openldap.
 
 ## 0.1.0:
 
-* Initial release of cg-openldap
+* Initial release of ca_openldap
 
 - - -
 Check the [Markdown Syntax Guide](http://daringfireball.net/projects/markdown/syntax) for help with Markdown.

@@ -2,13 +2,13 @@ chef_gem 'net-ldap'
 chef_gem 'activeldap'
 
 class Chef::Recipe
-    include CGOpenldap
+    include CAOpenldap
 end
 
-lu = LDAPUtils.new(node.cg_openldap.ldap_server, 
-                   node.cg_openldap.ldap_port, 
-                   node.cg_openldap.rootdn, 
-                   node.cg_openldap.rootpassword)
+lu = LDAPUtils.new(node.ca_openldap.ldap_server, 
+                   node.ca_openldap.ldap_port, 
+                   node.ca_openldap.rootdn, 
+                   node.ca_openldap.rootpassword)
 
 parse_populate_data_bag_item do |dn, attrs|
   ruby_block "add_entry_#{dn}" do

@@ -13,7 +13,7 @@ define :ldif_schemas do
   ruby_block "build_schema_configuration_file" do
     block do
       File.open(import_file, "w") do |f|
-        node.cg_openldap.additional_schemas.each do |schema|
+        node.ca_openldap.additional_schemas.each do |schema|
           f.puts "include #{schema_dir}/#{schema}.schema"
         end
       end

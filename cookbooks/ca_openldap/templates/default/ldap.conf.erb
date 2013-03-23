@@ -13,8 +13,8 @@
 #DEREF          never
 
 # TLS certificates (needed for GnuTLS)
-BASE  <%=node['cg_openldap']['basedn']%>
-URI   ldap://<%=node['cg_openldap']['server']%>
+BASE  <%=node['ca_openldap']['basedn']%>
+URI   ldap://<%=node['ca_openldap']['server']%>
 <%case node[:platform]%>
 <%when "redhat"%>
 TLS_CACERTDIR     /etc/openssl/certs/

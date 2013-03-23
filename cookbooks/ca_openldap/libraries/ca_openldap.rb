@@ -1,15 +1,8 @@
-module Chef::Recipe::CGOpenldap
-
-  # 
-  def check_supported_platform
-    if node[:platform] != "redhat"
-      raise "platform #{node[:platform]} not supported"
-    end
-  end
+module Chef::Recipe::CAOpenldap
 
   def parse_populate_data_bag_item
 
-    config = data_bag_item('cg_openldap', 'populate')
+    config = data_bag_item('ca_openldap', 'populate')
     base = config['base']
 
     config['branches'].each do |branch|

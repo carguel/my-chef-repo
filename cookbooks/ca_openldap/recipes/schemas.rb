@@ -4,7 +4,7 @@ ldif_dir = "/tmp/ldif_schemas"
 
 # Copy the schemas from the cookbook file distribution
 remote_directory schema_dir do
-  cookbook node.cg_openldap.schema_cookbook
+  cookbook node.ca_openldap.schema_cookbook
   source "schemas"
   action :create
   files_mode 00644
@@ -19,7 +19,7 @@ ldif_schemas  do
 end
 
 #import schemas into LDAP
-node.cg_openldap.additional_schemas.each do |schema_name|
+node.ca_openldap.additional_schemas.each do |schema_name|
   ldap_schemas do
     ldif_dir ldif_dir
     schema schema_name

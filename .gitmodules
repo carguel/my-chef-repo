@@ -1,0 +1,3 @@
+[submodule "ca_openldap"]
+	path = ca_openldap
+	url = https://github.com/carguel/chef-cookbook-ca-openldap.git
